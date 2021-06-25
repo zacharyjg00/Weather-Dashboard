@@ -69,9 +69,27 @@ function forecastQueryAndPopulation(lon, lat, url) {
         })
         .then(function (data) {
             let uvi = $("<h4>");
+            let uviText = $("<span>");
             uvi.attr("class", "card-text");
             uvi.attr("id", "weather-uvi");
-            uvi.text("UV Index: " + data.current.uvi);
+            uviText.attr("id", "weather-uvi-text");
+
+            if (data.current.uvi < 3) {
+                uviText.attr("class", "uvi-low");
+            } else if (data.current.uvi < 6) {
+                uviText.attr("class", "uvi-medium");
+            } else if (data.current.uvi < 8) {
+                uviText.attr("class", "uvi-high");
+            } else if (data.current.uvi < 11) {
+                uviText.attr("class", "uvi-very-high");
+            } else if (data.current.uvi > 10) {
+                uviText.attr("class", "uvi-extremely-high");
+            }
+
+            uvi.text("UV Index: ");
+            uviText.text(data.current.uvi);
+            uvi.append(uviText);
+            
             currentWeatherCard.append(uvi);
 
             console.log(data);
@@ -159,7 +177,7 @@ function updateWeather(url) {
             humidity.text("Humidity: " + data.main.humidity + "%");
 
             cityAndDate.append(weatherIcon);
-            
+
             let lon = data.coord.lon;
             let lat = data.coord.lat;
             updateForecast(lon, lat, forecastUrl);
@@ -174,7 +192,22 @@ function updateForecast(lon, lat, url) {
         })
         .then(function (data) {
             let uvi = $("#weather-uvi");
-            uvi.text("UV Index: " + data.current.uvi);
+            let uviText = $("#weather-uvi-text")
+            uviText.text(data.current.uvi);
+            uvi.text("UV Index: ");
+            uvi.append(uviText);
+
+            if (data.current.uvi < 3) {
+                uviText.attr("class", "uvi-low");
+            } else if (data.current.uvi < 6) {
+                uviText.attr("class", "uvi-medium");
+            } else if (data.current.uvi < 8) {
+                uviText.attr("class", "uvi-high");
+            } else if (data.current.uvi < 11) {
+                uviText.attr("class", "uvi-very-high");
+            } else if (data.current.uvi > 10) {
+                uviText.attr("class", "uvi-extremely-high");
+            }
 
             console.log(data);
             for (let i = 0; i < 5; i++) {
@@ -199,7 +232,11 @@ function updateForecast(lon, lat, url) {
         });
 }
 
-$("#submitButton").on("click", function (event) {
+function setCityLocalStorage(cityName) {
+
+}
+
+$("#submit-button").on("click", function (event) {
     event.preventDefault();
     console.log($("#inputted-city").val());
     citySearch($("#inputted-city").val());
