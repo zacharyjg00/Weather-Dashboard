@@ -19,12 +19,16 @@
 
     <div class="row">
         <div class="col-3 searches">
-
+            <h1>Search for a City:</h1>
+            <form class="form-group" id="city-form">
+                <input type="text" class="form-control-lg" id="inputted-city" placeholder="Lakeville">
+                <button type="submit" class="btn btn-primary mb-2" id="submitButton">Submit</button>
+            </form>
         </div>
 
         <div class="col-9 results">
-            <div class="row  justify-content-center">
-                <div class="col-11 card" id="currentWeather">
+            <div class="row justify-content-center">
+                <div class="col-11 card" id="current-weather">
                     <!-- Card contents generated in currentWeatherQueryAndPopulation() in js file -->
                 </div>
             </div>
