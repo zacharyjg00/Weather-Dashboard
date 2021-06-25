@@ -1,5 +1,5 @@
 // Consts that are used throughout the code
-const iconSrc = "http://openweathermap.org/img/wn/"
+const iconSrc = "https://openweathermap.org/img/wn/"
 const units = "imperial";
 const forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=";
 const apiKey = "058dc32d2aa0d74282afc490c90bb317";
@@ -19,7 +19,6 @@ function currentWeatherQueryAndPopulation(url) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
 
             let cityAndDate = $("<h1>");
             let weatherIcon = $("<img>");
@@ -92,7 +91,6 @@ function forecastQueryAndPopulation(lon, lat, url) {
 
             currentWeatherCard.append(uvi);
 
-            console.log(data);
             for (let i = 0; i < 5; i++) {
                 let day = data.daily[i];
 
@@ -142,7 +140,7 @@ function forecastQueryAndPopulation(lon, lat, url) {
 
 // This function grabs the city name and goes and searches for it in the API
 function citySearch(cityName) {
-    let weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey + "&units=" + units;
+    let weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey + "&units=" + units;
 
     // This if statement determines if this is a first time call and the html needs to be generated or if the html just needs to be updated with a new cities data
     if (city == "") {
@@ -162,8 +160,6 @@ function updateWeather(url) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
-
             let cityAndDate = $("#city-and-date");
             let weatherIcon = $("#weather-icon");
             let temperature = $("#weather-temp");
@@ -214,7 +210,6 @@ function updateForecast(lon, lat, url) {
                 uviText.attr("class", "uvi-extremely-high");
             }
 
-            console.log(data);
             for (let i = 0; i < 5; i++) {
                 let day = data.daily[i];
 
@@ -260,7 +255,6 @@ $("#submit-button").on("click", function (event) {
     event.preventDefault();
     let cityObj = $("#inputted-city");
     let cityName = cityObj.val();
-    console.log(cityName);
     citySearch(cityName);
     cityObj.val("");
     setCityLocalStorage(cityName);
@@ -270,7 +264,6 @@ $("#submit-button").on("click", function (event) {
 // This listener is for when the user clicks on a previously searched city and it will then go and populate the html with the selected city.
 $("#previous-searches").on("click", function (event) {
     event.preventDefault();
-    console.log("Yes");
     let cityId = event.target.id;
     citySearch(cityId);
     previousSearches();
