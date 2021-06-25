@@ -1,0 +1,32 @@
+.header-gradient {
+    background-image: linear-gradient(
+        to right,
+        rgba(3, 4, 94) 0%,
+        rgba(202, 240, 248) 100%
+    );
+}
+
+.header-text {
+    color:azure;
+}
+
+.results {
+    border: 2px solid blue;
+}
+
+.card-title {
+    margin-bottom: 0;
+}
+
+.card-text {
+    margin: 10px;
+    margin-top: 0;
+}
+
+.forecast-image {
+    height: 90%;
+}
+.forecast-image-heading {
+    margin-bottom: 0;
+    height: 30%;
+}
