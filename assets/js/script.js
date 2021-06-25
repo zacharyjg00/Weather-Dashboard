@@ -1,15 +1,18 @@
-let today = moment();
-let city = "";
-
+// Consts that are used throughout the code
 const iconSrc = "http://openweathermap.org/img/wn/"
 const units = "imperial";
-
+const forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=";
 const apiKey = "058dc32d2aa0d74282afc490c90bb317";
 
-const forecastUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=";
+// These are the selectors for the code which grabs the weather card so data can be changed as well as the forecast row to append forecast cards on to
 let currentWeatherCard = $("#current-weather");
 let forecastRow = $("#forecast");
 
+// Instantiates the moment object to get today's date as well as changes the current city to be empty until the user submits a city
+let today = moment();
+let city = "";
+
+// This function is the initial call to generate the current weather in a city card as well as populate it with the corresponding info
 function currentWeatherQueryAndPopulation(url) {
     fetch(url)
         .then(function (response) {
@@ -55,6 +58,7 @@ function currentWeatherQueryAndPopulation(url) {
         });
 }
 
+// This function generates the html for the 5-day forecast as well as populates it with the corresponding data
 function forecastQueryAndPopulation(lon, lat, url) {
     url = url + lat + "&lon=" + lon + "&exclude=minutely,hourly&units=" + units + "&appid=" + apiKey;
     fetch(url)
@@ -62,6 +66,8 @@ function forecastQueryAndPopulation(lon, lat, url) {
             return response.json();
         })
         .then(function (data) {
+
+            // UV index is populated here rather than in the weather call as the API call for the weather does not provide the UVI
             let uvi = $("<h4>");
             let uviText = $("<span>");
             uvi.attr("class", "card-text");
@@ -134,8 +140,11 @@ function forecastQueryAndPopulation(lon, lat, url) {
         });
 }
 
+// This function grabs the city name and goes and searches for it in the API
 function citySearch(cityName) {
     let weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey + "&units=" + units;
+
+    // This if statement determines if this is a first time call and the html needs to be generated or if the html just needs to be updated with a new cities data
     if (city == "") {
         city = cityName;
         currentWeatherQueryAndPopulation(weatherUrl);
@@ -146,6 +155,7 @@ function citySearch(cityName) {
     }
 }
 
+// This function goes and updates the exisiting html as this is only called when the html does exist
 function updateWeather(url) {
     fetch(url)
         .then(function (response) {
@@ -178,6 +188,7 @@ function updateWeather(url) {
         });
 }
 
+// This function acts much in the same way as updateWeather. It updates the forecast cards if the html already exists
 function updateForecast(lon, lat, url) {
     url = url + lat + "&lon=" + lon + "&exclude=minutely,hourly&units=" + units + "&appid=" + apiKey;
     fetch(url)
@@ -226,10 +237,12 @@ function updateForecast(lon, lat, url) {
         });
 }
 
+// This function gets a city name as a parameter and then populates local storage with that city so the previously searched cities are kept track of
 function setCityLocalStorage(cityName) {
     localStorage.setItem(cityName, cityName);
 }
 
+// This function clears all previous searches and then repopulates them by iterating through local storage and creates a card for all searches
 function previousSearches() {
     $("#previous-searches").empty();
     for (let i = 0; i < localStorage.length; i++) {
@@ -241,7 +254,8 @@ function previousSearches() {
     }
 }
 
-
+// These are the event listeners for the webpage
+// This listener waits for someone to click the submit button where it takes what the user inputted and passes it to the corresponding functions to display the appropriate data
 $("#submit-button").on("click", function (event) {
     event.preventDefault();
     let cityObj = $("#inputted-city");
@@ -253,6 +267,7 @@ $("#submit-button").on("click", function (event) {
     previousSearches();
 });
 
+// This listener is for when the user clicks on a previously searched city and it will then go and populate the html with the selected city.
 $("#previous-searches").on("click", function (event) {
     event.preventDefault();
     console.log("Yes");
@@ -261,4 +276,5 @@ $("#previous-searches").on("click", function (event) {
     previousSearches();
 });
 
+// previousSearches() is called here so that whenever the webpage is refreshed, all previous searches are still visible
 previousSearches();
