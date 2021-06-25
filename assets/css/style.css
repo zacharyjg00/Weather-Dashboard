@@ -26,7 +26,47 @@
 .forecast-image {
     height: 90%;
 }
+
 .forecast-image-heading {
     margin-bottom: 0;
     height: 30%;
+}
+
+.uvi-low {
+    color: azure;
+    background-color: lightgreen;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.uvi-medium {
+    color: azure;
+    background-color: #ffd60a;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.uvi-high {
+    color: azure;
+    background-color: orange;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.uvi-very-high {
+    color: azure;
+    background-color: maroon;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.uvi-extremely-high {
+    color: azure;
+    background-color: purple;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+#weather-uvi {
+    margin-bottom: 10px;
 }
