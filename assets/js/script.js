@@ -24,7 +24,6 @@ function currentWeatherQueryAndPopulation(url) {
             let windSpeed = $("<h4>");
             let humidity = $("<h4>");
 
-
             cityAndDate.attr("class", "card-title");
             cityAndDate.attr("id", "city-and-date");
             cityAndDate.text(data.name + " (" + today.format("L") + ")");
@@ -44,16 +43,11 @@ function currentWeatherQueryAndPopulation(url) {
             humidity.attr("id", "weather-humidity");
             humidity.text("Humidity: " + data.main.humidity + "%");
 
-
-
-
             cityAndDate.append(weatherIcon);
             currentWeatherCard.append(cityAndDate);
             currentWeatherCard.append(temperature);
             currentWeatherCard.append(windSpeed);
             currentWeatherCard.append(humidity);
-
-
 
             let lon = data.coord.lon;
             let lat = data.coord.lat;
@@ -89,7 +83,7 @@ function forecastQueryAndPopulation(lon, lat, url) {
             uvi.text("UV Index: ");
             uviText.text(data.current.uvi);
             uvi.append(uviText);
-            
+
             currentWeatherCard.append(uvi);
 
             console.log(data);
@@ -233,12 +227,38 @@ function updateForecast(lon, lat, url) {
 }
 
 function setCityLocalStorage(cityName) {
-
+    localStorage.setItem(cityName, cityName);
 }
+
+function previousSearches() {
+    $("#previous-searches").empty();
+    for (let i = 0; i < localStorage.length; i++) {
+        let previousCity = $("<h3>");
+        previousCity.attr("class", "card cities");
+        previousCity.attr("id", localStorage.key(i));
+        previousCity.text(localStorage.key(i));
+        $("#previous-searches").append(previousCity);
+    }
+}
+
 
 $("#submit-button").on("click", function (event) {
     event.preventDefault();
-    console.log($("#inputted-city").val());
-    citySearch($("#inputted-city").val());
-    $("#inputted-city").val("");
-})
+    let cityObj = $("#inputted-city");
+    let cityName = cityObj.val();
+    console.log(cityName);
+    citySearch(cityName);
+    cityObj.val("");
+    setCityLocalStorage(cityName);
+    previousSearches();
+});
+
+$("#previous-searches").on("click", function (event) {
+    event.preventDefault();
+    console.log("Yes");
+    let cityId = event.target.id;
+    citySearch(cityId);
+    previousSearches();
+});
+
+previousSearches();
