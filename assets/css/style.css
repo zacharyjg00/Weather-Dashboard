@@ -1,3 +1,7 @@
+* {
+    font-family:Arial, Helvetica, sans-serif;
+}
+
 .header-gradient {
     background-image: linear-gradient(
         to right,
@@ -8,10 +12,6 @@
 
 .header-text {
     color:azure;
-}
-
-.results {
-    border: 2px solid blue;
 }
 
 .card-title {
